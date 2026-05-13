@@ -1,0 +1,9 @@
+[33mff089cc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Add debug endpoint to check AI status
+[33m145f1c2[m Add Groq AI agent integration with fallback to rule-based
+[33m43f6cc0[m[33m ([m[1;31morigin/main[m[33m)[m Update API URL to production backend
+[33m42c1ae7[m Add Dockerfile for Python 3.11 deployment
+[33mc95d83d[m Add Dockerfile for Python 3.11 deployment
+[33m5ee6f54[m Use SQLAlchemy 1.4.54 for Python 3.11 compatibility
+[33m909759d[m Fix: Pin Python to 3.11 and use minimal dependencies
+[33madf5e20[m Fix requirements for Render deployment
+[33mbbd8584[m first commit: full-stack agent tool runner
