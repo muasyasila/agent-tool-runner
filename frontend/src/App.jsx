@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Send, History, Clock, Calculator, MessageSquare, Trash2 } from 'lucide-react'
+import { Send, History, Clock, Calculator, MessageSquare, Info, X, Github, ExternalLink, Zap, Database, Brain, Cloud, Code } from 'lucide-react'
 import './index.css'
 
 const API_URL = 'https://agent-tool-runner.onrender.com'
@@ -10,6 +10,7 @@ function App() {
     const [currentResponse, setCurrentResponse] = useState(null)
     const [history, setHistory] = useState([])
     const [showHistory, setShowHistory] = useState(true)
+    const [showAbout, setShowAbout] = useState(false)
     const [error, setError] = useState(null)
 
     // Load history when app starts
@@ -75,7 +76,7 @@ function App() {
             if (!response.ok) throw new Error('Failed to load run')
             const data = await response.json()
             setCurrentResponse(data)
-            setShowHistory(false) // Hide history on mobile when showing a run
+            setShowHistory(false)
         } catch (err) {
             setError(err.message)
         } finally {
@@ -93,29 +94,203 @@ function App() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800">
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
             {/* Header */}
             <header className="bg-gray-900/50 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-10">
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex justify-between items-center">
                         <div>
-                            <h1 className="text-2xl font-bold text-white">
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                                 Agent Tool Runner
                             </h1>
                             <p className="text-gray-400 text-sm">
                                 AI-powered agent with tools
                             </p>
                         </div>
-                        <button
-                            onClick={() => setShowHistory(!showHistory)}
-                            className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition text-white"
-                        >
-                            <History className="w-4 h-4" />
-                            {showHistory ? 'Hide' : 'Show'} History
-                        </button>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => setShowAbout(true)}
+                                className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition text-white"
+                            >
+                                <Info className="w-4 h-4" />
+                                About
+                            </button>
+                            <button
+                                onClick={() => setShowHistory(!showHistory)}
+                                className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition text-white"
+                            >
+                                <History className="w-4 h-4" />
+                                {showHistory ? 'Hide' : 'Show'} History
+                            </button>
+                        </div>
                     </div>
                 </div>
             </header>
+
+            {/* About Modal */}
+            {showAbout && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowAbout(false)}>
+                    <div className="bg-gray-800 rounded-xl max-w-3xl w-full max-h-[85vh] overflow-y-auto border border-gray-700" onClick={(e) => e.stopPropagation()}>
+                        <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-4 flex justify-between items-center">
+                            <h2 className="text-xl font-bold text-white">About Agent Tool Runner</h2>
+                            <button onClick={() => setShowAbout(false)} className="p-1 hover:bg-gray-700 rounded-lg transition">
+                                <X className="w-5 h-5 text-gray-400" />
+                            </button>
+                        </div>
+
+                        <div className="p-6 space-y-6">
+                            {/* Overview */}
+                            <section>
+                                <h3 className="text-lg font-semibold text-blue-400 mb-2 flex items-center gap-2">
+                                    <Zap className="w-5 h-5" />
+                                    What is this?
+                                </h3>
+                                <p className="text-gray-300 leading-relaxed">
+                                    Agent Tool Runner is a production-grade, AI-powered agent system that understands natural language and executes tools based on your requests. It demonstrates the same architecture used by leading AI labs for agent-based systems.
+                                </p>
+                            </section>
+
+                            {/* Architecture */}
+                            <section>
+                                <h3 className="text-lg font-semibold text-purple-400 mb-3 flex items-center gap-2">
+                                    <Cloud className="w-5 h-5" />
+                                    Architecture
+                                </h3>
+                                <div className="bg-gray-900 rounded-lg p-4 font-mono text-sm">
+                                    <div className="space-y-2">
+                                        <div className="text-blue-400">┌─────────────────┐</div>
+                                        <div className="text-blue-400">│  React Frontend │ ← Vercel (CDN)</div>
+                                        <div className="text-blue-400">│  (Tailwind CSS) │</div>
+                                        <div className="text-blue-400">└────────┬────────┘</div>
+                                        <div className="text-blue-400">         │ HTTPS</div>
+                                        <div className="text-blue-400">         ▼</div>
+                                        <div className="text-green-400">┌─────────────────┐</div>
+                                        <div className="text-green-400">│  FastAPI Backend│ ← Render (Docker)</div>
+                                        <div className="text-green-400">│  (Python 3.11)  │</div>
+                                        <div className="text-green-400">└────────┬────────┘</div>
+                                        <div className="text-green-400">         │</div>
+                                        <div className="text-green-400">    ┌────┴────┬────────┐</div>
+                                        <div className="text-green-400">    ▼         ▼        ▼</div>
+                                        <div className="text-yellow-400">┌────────┐ ┌──────┐ ┌──────┐</div>
+                                        <div className="text-yellow-400">│ Groq AI│ │Tools │ │Post- │</div>
+                                        <div className="text-yellow-400">│ (Llama │ │(Calc,│ │greSQL│</div>
+                                        <div className="text-yellow-400">│   3)   │ │Time, │ │(Aiven│</div>
+                                        <div className="text-yellow-400">└────────┘ │ Echo)│ │  )   │</div>
+                                        <div className="text-yellow-400">          └──────┘ └──────┘</div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* Features */}
+                            <section>
+                                <h3 className="text-lg font-semibold text-green-400 mb-3 flex items-center gap-2">
+                                    <Brain className="w-5 h-5" />
+                                    Features
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <div className="font-semibold text-white mb-1">🧠 Natural Language Understanding</div>
+                                        <p className="text-gray-400 text-sm">Uses Groq's Llama 3 to understand "15 percent of 200" without special syntax</p>
+                                    </div>
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <div className="font-semibold text-white mb-1">🔧 Tool Calling</div>
+                                        <p className="text-gray-400 text-sm">Calculator, time lookup, echo - easily extensible</p>
+                                    </div>
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <div className="font-semibold text-white mb-1">💾 Persistent History</div>
+                                        <p className="text-gray-400 text-sm">All agent runs saved to PostgreSQL with execution traces</p>
+                                    </div>
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <div className="font-semibold text-white mb-1">🔄 Fallback System</div>
+                                        <p className="text-gray-400 text-sm">Rule-based fallback if AI fails - always reliable</p>
+                                    </div>
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <div className="font-semibold text-white mb-1">📊 Execution Trace</div>
+                                        <p className="text-gray-400 text-sm">See exactly what the agent did, step by step</p>
+                                    </div>
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <div className="font-semibold text-white mb-1">🎨 Beautiful UI</div>
+                                        <p className="text-gray-400 text-sm">Dark theme with glassmorphism, responsive design</p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* Tech Stack */}
+                            <section>
+                                <h3 className="text-lg font-semibold text-yellow-400 mb-3 flex items-center gap-2">
+                                    <Database className="w-5 h-5" />
+                                    Technology Stack
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="px-3 py-1 bg-blue-900/50 text-blue-300 rounded-full text-sm">React 19</span>
+                                    <span className="px-3 py-1 bg-blue-900/50 text-blue-300 rounded-full text-sm">Vite</span>
+                                    <span className="px-3 py-1 bg-blue-900/50 text-blue-300 rounded-full text-sm">Tailwind CSS</span>
+                                    <span className="px-3 py-1 bg-green-900/50 text-green-300 rounded-full text-sm">FastAPI</span>
+                                    <span className="px-3 py-1 bg-green-900/50 text-green-300 rounded-full text-sm">Python 3.11</span>
+                                    <span className="px-3 py-1 bg-green-900/50 text-green-300 rounded-full text-sm">Docker</span>
+                                    <span className="px-3 py-1 bg-purple-900/50 text-purple-300 rounded-full text-sm">PostgreSQL</span>
+                                    <span className="px-3 py-1 bg-purple-900/50 text-purple-300 rounded-full text-sm">SQLAlchemy</span>
+                                    <span className="px-3 py-1 bg-yellow-900/50 text-yellow-300 rounded-full text-sm">Groq (Llama 3)</span>
+                                    <span className="px-3 py-1 bg-orange-900/50 text-orange-300 rounded-full text-sm">Vercel</span>
+                                    <span className="px-3 py-1 bg-orange-900/50 text-orange-300 rounded-full text-sm">Render</span>
+                                    <span className="px-3 py-1 bg-orange-900/50 text-orange-300 rounded-full text-sm">Aiven</span>
+                                </div>
+                            </section>
+
+                            {/* Example Prompts */}
+                            <section>
+                                <h3 className="text-lg font-semibold text-blue-400 mb-3">📝 Try These Examples</h3>
+                                <div className="space-y-2">
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <span className="text-green-400">✓</span>
+                                        <span className="text-white ml-2">"What's 15 percent of 200?"</span>
+                                        <span className="text-gray-500 text-sm ml-2">→ Understands percentages</span>
+                                    </div>
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <span className="text-green-400">✓</span>
+                                        <span className="text-white ml-2">"Add 5 and 7 then multiply by 2"</span>
+                                        <span className="text-gray-500 text-sm ml-2">→ Multi-step instructions</span>
+                                    </div>
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <span className="text-green-400">✓</span>
+                                        <span className="text-white ml-2">"What time is it?"</span>
+                                        <span className="text-gray-500 text-sm ml-2">→ Gets current time</span>
+                                    </div>
+                                    <div className="bg-gray-900 rounded-lg p-3">
+                                        <span className="text-green-400">✓</span>
+                                        <span className="text-white ml-2">"Say hello world"</span>
+                                        <span className="text-gray-500 text-sm ml-2">→ Echoes your message</span>
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* Links */}
+                            <section className="pt-4 border-t border-gray-700">
+                                <div className="flex justify-center gap-4">
+                                    <a
+                                        href="https://github.com/muasyasila/agent-tool-runner"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 text-gray-400 hover:text-white transition"
+                                    >
+                                        <Github className="w-5 h-5" />
+                                        GitHub Repository
+                                    </a>
+                                    <a
+                                        href="https://agent-tool-runner.onrender.com/docs"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 text-gray-400 hover:text-white transition"
+                                    >
+                                        <ExternalLink className="w-5 h-5" />
+                                        API Documentation
+                                    </a>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Main Content */}
             <div className="container mx-auto px-4 py-8">
@@ -173,7 +348,7 @@ function App() {
                                     <textarea
                                         value={prompt}
                                         onChange={(e) => setPrompt(e.target.value)}
-                                        placeholder="Examples:&#10;• calc: 15 * 30&#10;• What time is it?&#10;• Say hello world"
+                                        placeholder="Examples:&#10;• What's 15 percent of 200?&#10;• Add 5 and 7 then multiply by 2&#10;• What time is it?&#10;• Say hello world"
                                         rows="3"
                                         className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                                         disabled={loading}
@@ -184,7 +359,7 @@ function App() {
                                     <button
                                         type="submit"
                                         disabled={loading || !prompt.trim()}
-                                        className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition"
+                                        className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition"
                                     >
                                         {loading ? (
                                             <>
@@ -206,10 +381,16 @@ function App() {
                                 <p className="text-xs text-gray-500 mb-2">Try these examples:</p>
                                 <div className="flex flex-wrap gap-2">
                                     <button
-                                        onClick={() => setPrompt("calc: 25 * 4")}
+                                        onClick={() => setPrompt("What's 15 percent of 200?")}
                                         className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-full text-gray-300 transition"
                                     >
-                                        calc: 25 * 4
+                                        15% of 200
+                                    </button>
+                                    <button
+                                        onClick={() => setPrompt("Add 5 and 7 then multiply by 2")}
+                                        className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-full text-gray-300 transition"
+                                    >
+                                        Add 5+7 then ×2
                                     </button>
                                     <button
                                         onClick={() => setPrompt("What time is it?")}
@@ -221,7 +402,7 @@ function App() {
                                         onClick={() => setPrompt("Say hello world")}
                                         className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-full text-gray-300 transition"
                                     >
-                                        Say hello world
+                                        Say hello
                                     </button>
                                 </div>
                             </div>
@@ -237,12 +418,19 @@ function App() {
                         {/* Response Display */}
                         {currentResponse && (
                             <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700 p-6">
-                                <h2 className="text-lg font-semibold text-white mb-4">Result</h2>
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-lg font-semibold text-white">Result</h2>
+                                    {currentResponse.ai_mode && (
+                                        <span className="text-xs px-2 py-1 bg-purple-900/50 text-purple-300 rounded-full">
+                                            🤖 AI Mode
+                                        </span>
+                                    )}
+                                </div>
 
                                 {/* Final Answer */}
-                                <div className="bg-gray-900 rounded-lg p-4 mb-4">
+                                <div className="bg-gradient-to-r from-gray-900 to-gray-900/50 rounded-lg p-4 mb-4 border-l-4 border-blue-500">
                                     <p className="text-gray-300 text-sm mb-1">Final Answer:</p>
-                                    <p className="text-white text-lg font-medium">{currentResponse.final_response}</p>
+                                    <p className="text-white text-xl font-medium">{currentResponse.final_response}</p>
                                 </div>
 
                                 {/* Tool Used */}
@@ -262,6 +450,11 @@ function App() {
                                             <div key={idx} className="bg-gray-900 rounded-lg p-3">
                                                 <p className="text-blue-400 text-xs mb-2">Step {step.step}: {step.action}</p>
                                                 <div className="space-y-1 text-sm">
+                                                    {step.mode && (
+                                                        <p className="text-gray-400">
+                                                            <span className="text-gray-500">→ Mode:</span> {step.mode}
+                                                        </p>
+                                                    )}
                                                     {step.tool_chosen && (
                                                         <p className="text-gray-400">
                                                             <span className="text-gray-500">→ Tool:</span> {step.tool_chosen}
@@ -289,11 +482,13 @@ function App() {
                                 </div>
 
                                 {/* Metadata */}
-                                <div className="mt-4 pt-4 border-t border-gray-700">
-                                    <p className="text-gray-500 text-xs">
-                                        Run ID: {currentResponse.id} • {new Date(currentResponse.created_at).toLocaleString()}
-                                    </p>
-                                </div>
+                                {currentResponse.id && (
+                                    <div className="mt-4 pt-4 border-t border-gray-700">
+                                        <p className="text-gray-500 text-xs">
+                                            Run ID: {currentResponse.id} • {new Date(currentResponse.created_at).toLocaleString()}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -301,18 +496,24 @@ function App() {
                         {!currentResponse && !loading && (
                             <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700 p-12 text-center">
                                 <div className="flex flex-col items-center">
-                                    <div className="w-16 h-16 bg-blue-900/50 rounded-full flex items-center justify-center mb-4">
+                                    <div className="w-16 h-16 bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-full flex items-center justify-center mb-4">
                                         <MessageSquare className="w-8 h-8 text-blue-400" />
                                     </div>
                                     <h2 className="text-xl font-semibold text-white mb-2">
                                         Welcome to Agent Tool Runner
                                     </h2>
                                     <p className="text-gray-400">
-                                        Type a prompt above to see the agent in action!
+                                        Type a prompt above to see the AI agent in action!
                                     </p>
                                     <p className="text-gray-500 text-sm mt-4">
-                                        Try: calc: 15 * 30 • What time is it? • Say hello
+                                        Try: "What's 15 percent of 200?" • "Add 5 and 7 then multiply by 2" • "What time is it?"
                                     </p>
+                                    <button
+                                        onClick={() => setShowAbout(true)}
+                                        className="mt-6 text-blue-400 hover:text-blue-300 text-sm underline"
+                                    >
+                                        Learn more about this project →
+                                    </button>
                                 </div>
                             </div>
                         )}
