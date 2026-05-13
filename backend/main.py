@@ -6,7 +6,7 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 
 # Import our modules
-from agent import run_agent
+from agent import run_agent  # This is now async
 from database import init_db, get_db, save_run, get_recent_runs, get_run_by_id
 
 # Create FastAPI app
@@ -140,9 +140,10 @@ async def run_agent_endpoint(request: RunRequest, db: Session = Depends(get_db))
     - "What is 100 / 10?"
     - "What time is it?"
     - "Say hello world"
+    - "Add 5 and 7 then multiply by 2"
     """
-    # Run the agent
-    result = run_agent(request.prompt)
+    # Run the agent (AWAIT it since it's now async)
+    result = await run_agent(request.prompt)
     
     # Save to database
     saved_run = save_run(

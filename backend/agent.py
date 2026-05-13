@@ -4,7 +4,6 @@ Supports both rule-based and AI-powered (Groq) modes.
 """
 
 import os
-import asyncio
 from typing import Dict, Any, List
 from tools import execute_tool
 
@@ -15,12 +14,6 @@ def parse_user_intent(prompt: str) -> Dict[str, Any]:
     """
     Parse user prompt to determine which tool to use.
     Rule-based system - fallback when AI is disabled or fails.
-    
-    Args:
-        prompt: User's input text
-    
-    Returns:
-        Dictionary with tool name and arguments
     """
     prompt_lower = prompt.lower().strip()
     
@@ -54,6 +47,18 @@ def parse_user_intent(prompt: str) -> Dict[str, Any]:
             "confidence": "high"
         }
     
+    # Check for echo/say patterns
+    echo_patterns = [r'say\s+(.+)', r'echo\s+(.+)', r'repeat\s+(.+)']
+    for pattern in echo_patterns:
+        match = re.search(pattern, prompt_lower)
+        if match:
+            message = match.group(1)
+            return {
+                "tool": "echo",
+                "args": message,
+                "confidence": "high"
+            }
+    
     # Default to echo
     return {
         "tool": "echo",
@@ -68,20 +73,17 @@ async def run_agent_async(prompt: str) -> Dict[str, Any]:
     from groq_agent import run_ai_agent
     return await run_ai_agent(prompt)
 
-def run_agent(prompt: str) -> Dict[str, Any]:
+async def run_agent(prompt: str) -> Dict[str, Any]:
     """
     Main agent function that processes user input and returns result.
     Uses AI if USE_AI=true, otherwise uses rule-based.
     """
     # Step 1: Get intent (either AI or rule-based)
     if USE_AI:
-        # Run async function in sync context
         try:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            intent = loop.run_until_complete(run_agent_async(prompt))
-            loop.close()
+            intent = await run_agent_async(prompt)
             ai_mode = True
+            print(f"🤖 AI mode used for: {prompt}")
         except Exception as e:
             print(f"❌ AI mode failed: {e}, falling back to rule-based")
             intent = parse_user_intent(prompt)
