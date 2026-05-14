@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Send, History, Clock, Calculator, MessageSquare, Info, X, Github, ExternalLink } from 'lucide-react'
+import { Send, History, Clock, Calculator, MessageSquare, Info, X, GitHub, ExternalLink } from 'lucide-react'
 import './index.css'
 
 const API_URL = 'https://agent-tool-runner.onrender.com'
@@ -119,7 +119,7 @@ function App() {
                         </div>
                         <p className="text-gray-400 text-sm mb-3">🎯 Try: "What's 15 percent of 200?" or "Add 5 and 7 then multiply by 2"</p>
                         <div className="flex gap-3 pt-2 border-t border-gray-700">
-                            <a href="https://github.com/muasyasila/agent-tool-runner" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300"><Github className="w-4 h-4" />GitHub</a>
+                            <a href="https://github.com/muasyasila/agent-tool-runner" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300"><GitHub className="w-4 h-4" />GitHub</a>
                             <a href="https://agent-tool-runner.onrender.com/docs" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300"><ExternalLink className="w-4 h-4" />API Docs</a>
                         </div>
                     </div>
