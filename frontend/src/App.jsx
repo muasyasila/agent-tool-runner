@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Send, History, Clock, Calculator, MessageSquare, Info, X, GitHub, ExternalLink } from 'lucide-react'
+import { Send, History, Clock, Calculator, MessageSquare, Info, X, ExternalLink } from 'lucide-react'
 import './index.css'
 
 const API_URL = 'https://agent-tool-runner.onrender.com'
@@ -119,8 +119,14 @@ function App() {
                         </div>
                         <p className="text-gray-400 text-sm mb-3">🎯 Try: "What's 15 percent of 200?" or "Add 5 and 7 then multiply by 2"</p>
                         <div className="flex gap-3 pt-2 border-t border-gray-700">
-                            <a href="https://github.com/muasyasila/agent-tool-runner" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300"><GitHub className="w-4 h-4" />GitHub</a>
-                            <a href="https://agent-tool-runner.onrender.com/docs" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300"><ExternalLink className="w-4 h-4" />API Docs</a>
+                            <a href="https://github.com/muasyasila/agent-tool-runner" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300">
+                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.26.82-.58 0-.287-.01-1.05-.015-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.39-1.335-1.76-1.335-1.76-1.09-.745.082-.73.082-.73 1.205.085 1.838 1.237 1.838 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" /></svg>
+                                GitHub
+                            </a>
+                            <a href="https://agent-tool-runner.onrender.com/docs" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300">
+                                <ExternalLink className="w-4 h-4" />
+                                API Docs
+                            </a>
                         </div>
                     </div>
                 </div>
